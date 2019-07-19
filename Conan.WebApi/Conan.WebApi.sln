@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conan.Api", "Conan\Conan.Api.csproj", "{9A075A6B-5CD7-4902-9047-0116B08F7BFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conan.Data", "Conan.Data\Conan.Data.csproj", "{7C7ED992-9925-4669-B7FA-A29C9A40B8B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conan.Common", "Conan.Common\Conan.Common.csproj", "{50442311-54CE-48F8-AB30-EF8035F73CA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conan.Api.Tests", "Conan.Tests\Conan.Api.Tests.csproj", "{25BE6545-AB5C-41DF-AB1D-AA767D7E7A2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conan.Common.Tests", "Conan.Common.Tests\Conan.Common.Tests.csproj", "{EEC611C6-5FC7-483D-8D49-7C3BF6ECFE05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conan.Data.Tests", "Conan.Data.Tests\Conan.Data.Tests.csproj", "{7D3326BB-5072-47EB-ACFE-4C252F51F83D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A075A6B-5CD7-4902-9047-0116B08F7BFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A075A6B-5CD7-4902-9047-0116B08F7BFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A075A6B-5CD7-4902-9047-0116B08F7BFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A075A6B-5CD7-4902-9047-0116B08F7BFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C7ED992-9925-4669-B7FA-A29C9A40B8B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C7ED992-9925-4669-B7FA-A29C9A40B8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C7ED992-9925-4669-B7FA-A29C9A40B8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C7ED992-9925-4669-B7FA-A29C9A40B8B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50442311-54CE-48F8-AB30-EF8035F73CA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50442311-54CE-48F8-AB30-EF8035F73CA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50442311-54CE-48F8-AB30-EF8035F73CA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50442311-54CE-48F8-AB30-EF8035F73CA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25BE6545-AB5C-41DF-AB1D-AA767D7E7A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25BE6545-AB5C-41DF-AB1D-AA767D7E7A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25BE6545-AB5C-41DF-AB1D-AA767D7E7A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25BE6545-AB5C-41DF-AB1D-AA767D7E7A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEC611C6-5FC7-483D-8D49-7C3BF6ECFE05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEC611C6-5FC7-483D-8D49-7C3BF6ECFE05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEC611C6-5FC7-483D-8D49-7C3BF6ECFE05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEC611C6-5FC7-483D-8D49-7C3BF6ECFE05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D3326BB-5072-47EB-ACFE-4C252F51F83D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D3326BB-5072-47EB-ACFE-4C252F51F83D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D3326BB-5072-47EB-ACFE-4C252F51F83D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D3326BB-5072-47EB-ACFE-4C252F51F83D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F506E11-F5FB-4F65-B874-B5012E53E8F4}
+	EndGlobalSection
+EndGlobal

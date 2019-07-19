@@ -1,0 +1,15 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Conan.Data.Models;
+
+namespace Conan.Data.Repositories.Interfaces
+{
+    public interface ICrudRepository<T>
+    {
+        Task<IEnumerable<Message>> Get();
+        Task<T> Get(int id);
+        Task<bool> Insert(T item);
+        Task<bool> Update(T item);
+        Task<bool> Delete(T item);
+    }
+}
