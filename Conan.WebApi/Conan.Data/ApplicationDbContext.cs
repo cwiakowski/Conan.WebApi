@@ -23,10 +23,10 @@ namespace Conan.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Message>()
-                .HasOne<AppUser>(a => a.Sender)
-                .WithMany(m => m.Messages)
-                .HasForeignKey(f => f.SenderID);
+//            builder.Entity<Message>()
+//                .HasOne<AppUser>(a => a.Sender)
+//                .WithMany(m => m.Messages)
+//                .HasForeignKey(f => f.SenderID);
 
             builder.Entity<Message>()
                 .HasOne<AppUser>(a => a.Receiver)
