@@ -14,6 +14,7 @@ namespace Conan.Data.Tests.Repositories
 
         }
 
+        [TestCategory("Critical")]
         [TestMethod]
         public void Example()
         {

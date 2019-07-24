@@ -8,8 +8,8 @@ namespace Conan.Data.Repositories.Interfaces
     {
         Task<IEnumerable<Message>> Get();
         Task<T> Get(int id);
-        Task<bool> Insert(T item);
+        Task Insert(T item);
         Task<bool> Update(T item);
-        Task<bool> Delete(T item);
+        Task<bool> Delete(int id);
     }
 }

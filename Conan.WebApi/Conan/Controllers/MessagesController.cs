@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Conan.Common.DTO;
+using Conan.Common.Services;
+using Conan.Common.Services.Interfaces;
 using Conan.Data;
 using Conan.Data.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,25 +15,25 @@ namespace Conan.Api.Controllers
     [ApiController]
     public class MessagesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICrudService<MessageDTO> _service;
 
-        public MessagesController(ApplicationDbContext context)
+        public MessagesController(ApplicationDbContext context, MessagesService service)
         {
-            _context = context;
+            _service = new MessagesService(context);
         }
 
         // GET: api/Messages
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Message>>> GetMessages()
+        public async Task<IEnumerable<MessageDTO>> GetMessages()
         {
-            return await _context.Messages.ToListAsync();
+            return await _service.Get();
         }
 
         // GET: api/Messages/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Message>> GetMessage(int id)
+        public async Task<ActionResult<MessageDTO>> GetMessage(int id)
         {
-            var message = await _context.Messages.FindAsync(id);
+            var message = await _service.Get(id);
 
             if (message == null)
             {
@@ -42,41 +45,24 @@ namespace Conan.Api.Controllers
 
         // PUT: api/Messages/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMessage(int id, Message message)
+        public async Task<IActionResult> PutMessage(int id, MessageDTO message)
         {
             if (id != message.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(message).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MessageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            if (!await _service.Update(message))
+                return BadRequest();
 
             return NoContent();
         }
 
         // POST: api/Messages
         [HttpPost]
-        public async Task<ActionResult<Message>> PostMessage(Message message)
+        public async Task<ActionResult<Message>> PostMessage(MessageDTO message)
         {
-            _context.Messages.Add(message);
-            await _context.SaveChangesAsync();
-
+            await _service.Insert(message);
             return CreatedAtAction("GetMessage", new { id = message.Id }, message);
         }
 
@@ -84,21 +70,12 @@ namespace Conan.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Message>> DeleteMessage(int id)
         {
-            var message = await _context.Messages.FindAsync(id);
-            if (message == null)
+            if (!await _service.Delete(id))
             {
                 return NotFound();
             }
 
-            _context.Messages.Remove(message);
-            await _context.SaveChangesAsync();
-
-            return message;
-        }
-
-        private bool MessageExists(int id)
-        {
-            return _context.Messages.Any(e => e.Id == id);
+            return Ok();
         }
     }
 }
