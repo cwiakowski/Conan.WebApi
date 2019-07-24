@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using Conan.Data;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Conan.Api
 {
@@ -7,7 +12,26 @@ namespace Conan.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            var host = CreateWebHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetService<ApplicationDbContext>();
+                var roleManager = services.GetService<RoleManager<IdentityRole>>();
+                try
+                {
+                    context.Database.Migrate();
+                    context.SeedData();
+                    context.SeedRolesAsync(roleManager).Wait();
+                }
+                catch (Exception ex)
+                {
+                    // Error handling
+                }
+            }
+
+            host.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
