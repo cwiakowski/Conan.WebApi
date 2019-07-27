@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Conan.Data.Models;
@@ -23,24 +24,24 @@ namespace Conan.Data
         {
             base.OnModelCreating(builder);
 
-//            builder.Entity<Message>()
-//                .HasOne<AppUser>(a => a.Sender)
-//                .WithMany(m => m.Messages)
-//                .HasForeignKey(f => f.SenderID);
+            builder.Entity<Message>()
+                .HasOne(m => m.FromUser)
+                .WithMany()
+                .HasForeignKey(k => k.FromUserId);
 
             builder.Entity<Message>()
-                .HasOne<AppUser>(a => a.Receiver)
-                .WithMany(m => m.Messages)
-                .HasForeignKey(f => f.ReceiverID);
+                .HasOne(m => m.ToUser)
+                .WithMany()
+                .HasForeignKey(k => k.ToUserId);
         }
 
 
 
         //Data initialization methods
 
-        public void SeedData()
+        public async void SeedDataAsync()
         {
-            if (!Users.Any())
+            if (!EnumerableExtensions.Any(Users))
             {
                 Users.AddRange(
                     new AppUser() { Id = "user1@gmail.com" },
@@ -48,7 +49,47 @@ namespace Conan.Data
                     new AppUser() { Id = "user3@gmail.com" },
                     new AppUser() { Id = "user4@gmail.com" });
                 SaveChanges();
+            }
 
+            if (!EnumerableExtensions.Any(Messages) && 2 <= await Users.CountAsync())
+            {
+                try
+                {
+                    var users = Users.Take(2);
+                    await Messages.AddRangeAsync(
+                        new Message()
+                        {
+                            Body = "Hola, como esta?",
+                            Date = DateTime.Today,
+                            FromUser = users.FirstOrDefault(),
+                            FromUserId = users.FirstOrDefault().Id,
+                            ToUser = users.LastOrDefault(),
+                            ToUserId = users.LastOrDefault().Id
+                        },
+                        new Message()
+                        {
+                            Body = "Gracias, muy bien, i to?",
+                            Date = DateTime.Today,
+                            FromUser = users.FirstOrDefault(),
+                            FromUserId = users.FirstOrDefault().Id,
+                            ToUser = users.LastOrDefault(),
+                            ToUserId = users.LastOrDefault().Id
+                        },
+                        new Message()
+                        {
+                            Body = "Iqualmente",
+                            Date = DateTime.Today,
+                            FromUser = users.FirstOrDefault(),
+                            FromUserId = users.FirstOrDefault().Id,
+                            ToUser = users.LastOrDefault(),
+                            ToUserId = users.LastOrDefault().Id
+                        }
+                    );
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
 
