@@ -39,7 +39,7 @@ namespace Conan.Data
 
         //Data initialization methods
 
-        public async void SeedDataAsync()
+        public async Task SeedDataAsync()
         {
             if (!EnumerableExtensions.Any(Users))
             {
@@ -70,10 +70,10 @@ namespace Conan.Data
                         {
                             Body = "Gracias, muy bien, i to?",
                             Date = DateTime.Today,
-                            FromUser = users.FirstOrDefault(),
-                            FromUserId = users.FirstOrDefault().Id,
-                            ToUser = users.LastOrDefault(),
-                            ToUserId = users.LastOrDefault().Id
+                            FromUser = users.LastOrDefault(),
+                            FromUserId = users.LastOrDefault().Id,
+                            ToUser = users.FirstOrDefault(),
+                            ToUserId = users.FirstOrDefault().Id
                         },
                         new Message()
                         {
@@ -85,6 +85,7 @@ namespace Conan.Data
                             ToUserId = users.LastOrDefault().Id
                         }
                     );
+                    SaveChanges();
                 }
                 catch (Exception e)
                 {

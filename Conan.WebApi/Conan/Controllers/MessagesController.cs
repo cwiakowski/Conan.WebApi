@@ -6,6 +6,7 @@ using Conan.Common.Services;
 using Conan.Common.Services.Interfaces;
 using Conan.Data;
 using Conan.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +14,14 @@ namespace Conan.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MessagesController : ControllerBase
     {
         private readonly ICrudService<MessageDTO> _service;
 
-        public MessagesController(ApplicationDbContext context, MessagesService service)
+        public MessagesController(ApplicationDbContext context, ICrudService<MessageDTO> service)
         {
-            _service = new MessagesService(context);
+            _service = service;
         }
 
         // GET: api/Messages

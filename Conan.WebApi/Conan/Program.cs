@@ -22,7 +22,7 @@ namespace Conan.Api
                 try
                 {
                     context.Database.Migrate();
-                    context.SeedDataAsync();
+                    context.SeedDataAsync().Wait();
                     context.SeedRolesAsync(roleManager).Wait();
                 }
                 catch (Exception ex)

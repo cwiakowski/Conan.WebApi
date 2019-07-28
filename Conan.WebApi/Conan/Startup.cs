@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Conan.Api.Hubs;
+using Conan.Common.DTO;
 using Conan.Common.Services;
+using Conan.Common.Services.Interfaces;
 using Conan.Data;
 using Conan.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +35,12 @@ namespace Conan.Api
         {
             // DI
             services.AddScoped<UserManager<AppUser>>();
+            services.AddScoped<ICrudService<MessageDTO>, MessagesService>();
+            // DB
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("Conan.Data")));
             // AUTH
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -53,11 +62,6 @@ namespace Conan.Api
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTConfiguration:SigningKey"]))
                     };
                 });
-            // DB
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("Conan.Data")));
             // Default services
             services.AddMvc(config =>
             {
@@ -70,6 +74,16 @@ namespace Conan.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Name = "Authorization",
+                    In = "header",
+                });
+                c.AddSecurityRequirement(new Dictionary<string,
+                    IEnumerable<string>>
+                {
+                    { "Bearer", new string[] { } }
+                });
             });
         }
 
@@ -92,19 +106,18 @@ namespace Conan.Api
                 builder.AllowAnyOrigin();
                 builder.AllowAnyMethod();
             });
-
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            //app.UseAuthentication();
+            app.UseSignalR(route => { route.MapHub<ChatHub>("/chatHub"); });
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = "";
             });
-            app.UseSignalR(route => { route.MapHub<ChatHub>("/chatHub"); });
         }
     }
 }
