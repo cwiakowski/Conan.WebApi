@@ -12,5 +12,7 @@ namespace Conan.Data.Models
         }
 
         public virtual ICollection<Message> Messages { get; set; }
+
+        public string GetName() => Email;
     }
 }

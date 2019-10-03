@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Conan.Common.DTO;
 using Conan.Common.Services;
@@ -29,6 +30,14 @@ namespace Conan.Api.Controllers
         public async Task<IEnumerable<MessageDTO>> GetMessages()
         {
             return await _service.Get();
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<MessageHeaderDTO>> GetMessageHeaders()
+        {
+            var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return await ((MessagesService)_service).GetHeaders(userId);
         }
 
         // GET: api/Messages/5
